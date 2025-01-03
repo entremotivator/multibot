@@ -7,7 +7,7 @@ from typing import Dict, List
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "selected_bot" not in st.session_state:
-    st.session_state.selected_bot = "Helper Bot"
+    st.session_state.selected_bot = "Helper Bot"  # Default bot
 if "api_configured" not in st.session_state:
     st.session_state.api_configured = False
 
@@ -24,7 +24,7 @@ BOT_PERSONALITIES = {
     "Virtual CFO": "You provide financial leadership for small businesses.",
     "Outsourcing Expert": "You help businesses delegate tasks effectively.",
     "Business Mentor": "You guide entrepreneurs with your vast experience and advice.",
-    "Change Management Bot": "You assist organizations in adapting to changes effectively.",
+    "Change Management Bot": "You assist in managing organizational change effectively."
 }
 
 def initialize_api_config():
@@ -50,7 +50,7 @@ def send_message_to_ollama(message: str, bot_personality: str) -> Dict:
             auth=(st.session_state.username, st.session_state.password),
             headers=headers,
             json=payload,
-            timeout=90  # Updated timeout to 90 seconds
+            timeout=30
         )
         response.raise_for_status()
         return response.json()
@@ -79,7 +79,8 @@ def main():
     # Sidebar for bot selection and customization
     with st.sidebar:
         st.markdown("### Select a Bot")
-        bot_name = st.selectbox("Choose a Bot", list(BOT_PERSONALITIES.keys()), index=list(BOT_PERSONALITIES.keys()).index(st.session_state.selected_bot))
+        # Ensure selected bot exists in the predefined list
+        bot_name = st.selectbox("Choose a Bot", list(BOT_PERSONALITIES.keys()), index=list(BOT_PERSONALITIES.keys()).index(st.session_state.selected_bot) if st.session_state.selected_bot in BOT_PERSONALITIES else 0)
         st.session_state.selected_bot = bot_name
         bot_personality = BOT_PERSONALITIES[bot_name]
 
