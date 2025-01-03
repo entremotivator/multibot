@@ -1,5 +1,4 @@
 import streamlit as st
-import langchain
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
