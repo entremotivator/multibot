@@ -329,7 +329,7 @@ def send_message_to_ollama(message: str, bot_personality: str) -> Dict:
             auth=(st.session_state.username, st.session_state.password),
             headers=headers,
             json=payload,
-            timeout=30
+            timeout=90
         )
         response.raise_for_status()
         return response.json()
